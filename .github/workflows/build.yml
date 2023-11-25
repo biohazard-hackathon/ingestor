@@ -1,0 +1,46 @@
+name: Build
+on:
+  push:
+    branches:
+      - "*"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Expose GitHub Runtime
+        uses: crazy-max/ghaction-github-runtime@v2
+
+      - name: Build images
+        run: |
+          docker buildx create --use --driver=docker-container
+          docker buildx bake -f ./docker-compose.yml --set *.cache-to="type=gha,mode=max" --set *.cache-from="type=gha" --load
+
+      - name: Cache Node Modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.OS }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-npm-cache-
+
+      - name: Build, QA
+        run: |
+          docker compose up -d
+          docker compose run ml-interface 'make -C release/ package qa'
+          docker compose down --remove-orphans
+
+      - name: Store Artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: ml-interface # double zipping issue: https://github.com/actions/upload-artifact/issues/39
+          path: release/target/ml-interface.zip
+
+      - name: Release
+        run: make -C release/ release AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        env:
+          AWS_EC2_METADATA_DISABLED: "true" # https://github.com/actions/runner/issues/503
