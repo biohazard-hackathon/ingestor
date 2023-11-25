@@ -5,5 +5,7 @@ export interface Message {
 
 export interface SheetIngestionMessage extends Message {
 	type: 'sheet-ingestion',
-	payload: string,
+	payload: {
+		id: string,
+	},
 }

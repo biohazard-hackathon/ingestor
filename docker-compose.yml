@@ -1,6 +1,16 @@
 version: "3.9"
 
 services:
+  s3:
+    image: minio/minio:latest
+    expose:
+      - 9000
+    environment:
+      MINIO_ROOT_USER: root
+      MINIO_ROOT_PASSWORD: toor1234
+    entrypoint: sh
+    command: -c 'mkdir -p /data/raw && minio server /data --console-address=0.0.0.0:9001'
+
   ingestor:
     build:
       context: ./
@@ -11,6 +21,7 @@ services:
       AWS_SECRET_ACCESS_KEY: toor1234
       AWS_XRAY_CONTEXT_MISSING: LOG_ERROR
       AWS_XRAY_LOG_LEVEL: SILENT
+      S3_ENDPOINT: http://s3:9000
     volumes:
       - .:/www/
     working_dir: /www

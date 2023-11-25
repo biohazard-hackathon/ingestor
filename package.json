@@ -10,11 +10,14 @@
   "dependencies": {
     "@aws-lambda-powertools/logger": "^1.16.0",
     "@aws-lambda-powertools/tracer": "^1.16.0",
+    "@aws-sdk/client-eventbridge": "^3.454.0",
+    "@aws-sdk/client-s3": "^3.454.0",
     "@aws-sdk/credential-providers": "^3.454.0",
     "@middy/core": "^4.7.0",
     "aws-xray-sdk-core": "^3.5.3",
     "js-yaml": "^4.1.0",
-    "node-dependency-injection": "^2.7.3"
+    "node-dependency-injection": "^2.7.3",
+    "node-xlsx": "^0.23.0"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.126",

@@ -26,7 +26,30 @@ services:
       - '@configurator'
       - '@version'
 
+  s3Connection:
+    factory:
+      class: 'factories/S3ConnectionFactory'
+      method: createInstance
+    arguments:
+      - '@configurator'
+
+  eventBridgeConnection:
+    factory:
+      class: 'factories/EventBridgeConnectionFactory'
+      method: createInstance
+    arguments:
+      - '@configurator'
+
   # Models
+  s3Model:
+    class: 'models/S3Model'
+    arguments:
+      - '@s3Connection'
+
+  eventBridgeModel:
+    class: 'models/EventBridgeModel'
+    arguments:
+      - '@eventBridgeConnection'
 
   # Controllers
   healthCheckController:
@@ -42,5 +65,8 @@ services:
     class: 'controllers/SheetIngestionController'
     arguments:
       - '@logger'
+      - '@s3Model'
+      - '@eventBridgeModel'
+      - '@configurator'
     tags:
       - name: controller

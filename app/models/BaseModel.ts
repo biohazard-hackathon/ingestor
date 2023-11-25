@@ -1,3 +1,3 @@
-export abstract class BaseModel {
+export default abstract class BaseModel {
 
 }

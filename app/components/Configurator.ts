@@ -14,6 +14,10 @@ export default class Configurator {
 
 	mapping: Record<string, string> = {
 		LOGGER_LEVEL: 'logger.level',
+		S3_ENDPOINT: 's3.endpoint',
+		S3_ROW_BUCKET: 's3.buckets.row',
+		EVENTBRIDGE_NAME: 'eventbridge.name',
+		EVENTBRIDGE_ENABLED: 'eventbridge.enabled',
 	};
 
 	constructor(filePath: string) {

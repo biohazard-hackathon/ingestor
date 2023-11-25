@@ -5,3 +5,12 @@ parameters:
 
   s3:
     region: us-east-1
+    endpoint: null
+    buckets:
+      raw: raw
+
+  eventbridge:
+    region: us-east-1
+    endpoint: null
+    name: nonsense
+    enabled: false

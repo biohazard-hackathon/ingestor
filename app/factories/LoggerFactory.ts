@@ -6,7 +6,7 @@ import Version from '../components/Version';
 export default class LoggerFactory {
 	static createInstance(configurator: Configurator, version: Version): Logger {
 		return new Logger({
-			serviceName: 'ml-interface',
+			serviceName: 'ingestor',
 			logLevel: configurator.parameters('logger.level'),
 			persistentLogAttributes: {
 				version: version.getVersion(),
