@@ -31,16 +31,20 @@ jobs:
       - name: Build, QA
         run: |
           docker compose up -d
-          docker compose run ml-interface 'make -C release/ package qa'
+          docker compose run ingestor 'make -C release/ package qa'
           docker compose down --remove-orphans
-
-      - name: Store Artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: ml-interface # double zipping issue: https://github.com/actions/upload-artifact/issues/39
-          path: release/target/ml-interface.zip
 
       - name: Release
         run: make -C release/ release AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
         env:
           AWS_EC2_METADATA_DISABLED: "true" # https://github.com/actions/runner/issues/503
+
+      - name: Deploy
+        run: |
+          curl \
+          -X POST \
+          -H "Accept: application/vnd.github.v3+json" \
+          -H "Authorization: token ${{ secrets.PAT_TOKEN }}" \
+          --data '{"ref": "refs/heads/master"}' \
+          https://api.github.com/repos/biohazard-hackathon/infrastructure/actions/workflows/ingestion.yml/dispatches
+
