@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+  ingestor:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      target: build
+    environment:
+      AWS_ACCESS_KEY_ID: root
+      AWS_SECRET_ACCESS_KEY: toor1234
+      AWS_XRAY_CONTEXT_MISSING: LOG_ERROR
+      AWS_XRAY_LOG_LEVEL: SILENT
+    volumes:
+      - .:/www/
+    working_dir: /www
