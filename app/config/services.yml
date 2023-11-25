@@ -40,6 +40,13 @@ services:
     arguments:
       - '@configurator'
 
+  dynamoDbConnection:
+    factory:
+      class: 'factories/DynamoDbConnectionFactory'
+      method: createInstance
+    arguments:
+      - '@configurator'
+
   # Models
   s3Model:
     class: 'models/S3Model'
@@ -50,6 +57,11 @@ services:
     class: 'models/EventBridgeModel'
     arguments:
       - '@eventBridgeConnection'
+
+  dynamoDbModel:
+    class: 'models/DynamoDbModel'
+    arguments:
+      - '@dynamoDbConnection'
 
   # Controllers
   healthCheckController:
@@ -67,6 +79,7 @@ services:
       - '@logger'
       - '@s3Model'
       - '@eventBridgeModel'
+      - '@dynamoDbModel'
       - '@configurator'
     tags:
       - name: controller

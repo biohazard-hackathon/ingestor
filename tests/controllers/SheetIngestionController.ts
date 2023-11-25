@@ -1,5 +1,5 @@
 import {readFileSync} from 'fs';
-import {createContainer, s3Setup, s3Teardown} from '../testContainer';
+import {createContainer, dynamoDbSetup, dynamoDbTeardown, s3Setup, s3Teardown} from '../testContainer';
 import SheetIngestionController from '../../app/controllers/SheetIngestionController';
 import S3Model from '../../app/models/S3Model';
 import {SheetIngestionMessage} from '../../app/types/requests';
@@ -15,12 +15,14 @@ describe('Sheet Controller', () => {
 	beforeAll(async () => {
 		await Promise.all([
 			s3Setup(container),
+			dynamoDbSetup(container),
 		]);
 	});
 
 	afterAll(async () => {
 		await Promise.all([
 			s3Teardown(container),
+			dynamoDbTeardown(container),
 		]);
 	});
 

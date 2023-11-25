@@ -2,6 +2,7 @@ import {join} from 'path';
 import {ContainerBuilder, YamlFileLoader} from 'node-dependency-injection';
 import S3Model from '../app/models/S3Model';
 import Configurator from '../app/components/Configurator';
+import {DynamoDbModel} from '../app/models/DynamoDbModel';
 
 //@ts-ignore
 export const createContainer = (postfix?: string): ContainerBuilder => {
@@ -35,4 +36,31 @@ export const s3Teardown = async (container: ContainerBuilder): Promise<void> => 
 		console.warn(bucketName, error);
 	}
 	await s3.deleteBucket(bucketName);
+};
+
+export const dynamoDbSetup = async (container: ContainerBuilder): Promise<void> => {
+	const db = container.get<DynamoDbModel>('dynamoDbModel');
+	const configurator = container.get<Configurator>('configurator');
+	const tables = configurator.parameters('dynamoDb.tables');
+
+	await db.createTable(
+		tables.report,
+		[
+			{AttributeName: "id", KeyType: "HASH"},
+		],
+		[
+			{AttributeName: "id", AttributeType: "S"},
+		],
+		{},
+	);
+};
+
+export const dynamoDbTeardown = async (container: ContainerBuilder): Promise<void> => {
+	const db = container.get<DynamoDbModel>('dynamoDbModel');
+	const configurator = container.get<Configurator>('configurator');
+	const tables = configurator.parameters('dynamoDb.tables') as Record<string, string>;
+
+	await Promise.all([
+		db.deleteTable(tables.report),
+	]);
 };

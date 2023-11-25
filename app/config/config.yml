@@ -14,3 +14,11 @@ parameters:
     endpoint: null
     name: nonsense
     enabled: false
+
+  dynamoDb:
+    region: us-east-1
+    endpoint: null
+    name: nonsense
+    tables:
+      report: nonsense-table
+

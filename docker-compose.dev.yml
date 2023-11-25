@@ -7,6 +7,23 @@ services:
     ports:
       - 9001:9001
 
+  dynamodb:
+    volumes:
+      - ./dynamodb-data:/home/dynamodblocal/data
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ./data"
+
+  dynamodb-admin:
+    image: aaronshaf/dynamodb-admin
+    environment:
+      AWS_ACCESS_KEY_ID: DUMMYIDEXAMPLE
+      AWS_SECRET_ACCESS_KEY: DUMMYEXAMPLEKEY
+      DYNAMO_ENDPOINT: http://dynamodb:8000
+      PORT: 8080
+    links:
+      - dynamodb
+    ports:
+      - 8080:8080
+
   ingestor:
     ports:
       - 4000:4000

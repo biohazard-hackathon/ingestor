@@ -11,6 +11,13 @@ services:
     entrypoint: sh
     command: -c 'mkdir -p /data/raw && minio server /data --console-address=0.0.0.0:9001'
 
+  dynamodb:
+    image: amazon/dynamodb-local:latest
+    expose:
+      - 8000
+    working_dir: /home/dynamodblocal
+    command: "-jar DynamoDBLocal.jar -inMemory"
+
   ingestor:
     build:
       context: ./
@@ -22,6 +29,13 @@ services:
       AWS_XRAY_CONTEXT_MISSING: LOG_ERROR
       AWS_XRAY_LOG_LEVEL: SILENT
       S3_ENDPOINT: http://s3:9000
+      DYNAMODB_ENDPOINT: http://dynamodb:8000
+    links:
+      - s3
+      - dynamodb
+    depends_on:
+      - s3
+      - dynamodb
     volumes:
       - .:/www/
     working_dir: /www

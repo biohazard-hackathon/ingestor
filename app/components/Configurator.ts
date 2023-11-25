@@ -18,6 +18,7 @@ export default class Configurator {
 		S3_ROW_BUCKET: 's3.buckets.row',
 		EVENTBRIDGE_NAME: 'eventbridge.name',
 		EVENTBRIDGE_ENABLED: 'eventbridge.enabled',
+		DYNAMODB_ENDPOINT: 'dynamoDb.endpoint'
 	};
 
 	constructor(filePath: string) {
