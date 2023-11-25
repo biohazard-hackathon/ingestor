@@ -32,6 +32,8 @@ export default class Configurator {
 			//@ts-ignore
 			this.config = config;
 		}
+
+		console.log(this.config);
 	}
 
 
