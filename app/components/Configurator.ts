@@ -15,7 +15,7 @@ export default class Configurator {
 	mapping: Record<string, string> = {
 		LOGGER_LEVEL: 'logger.level',
 		S3_ENDPOINT: 's3.endpoint',
-		S3_ROW_BUCKET: 's3.buckets.row',
+		S3_RAW_BUCKET: 's3.buckets.raw',
 		EVENTBRIDGE_NAME: 'eventbridge.name',
 		EVENTBRIDGE_ENABLED: 'eventbridge.enabled',
 		DYNAMODB_ENDPOINT: 'dynamoDb.endpoint'
