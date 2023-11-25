@@ -1,0 +1,12 @@
+---
+
+version: '1'
+tools:
+  eslint:
+    ext: '.js,.ts'
+  tslint:
+    enabled: false
+
+thresholds: # https://www.codeac.io/documentation/issue-thresholds.html
+  error: 30
+  total: 90
