@@ -32,8 +32,6 @@ export default class Configurator {
 			//@ts-ignore
 			this.config = config;
 		}
-
-		console.log(this.config);
 	}
 
 
@@ -49,6 +47,8 @@ export default class Configurator {
 				return this.applyEnvParam(key, value);
 			}
 		});
+
+		console.log(this.config);
 	}
 
 	/**
