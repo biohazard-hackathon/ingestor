@@ -1,0 +1,18 @@
+export const Required = [
+	'chromosome',
+	'region',
+	'type',
+	'reference',
+	'allele',
+	'length',
+	'count',
+	'coverage',
+	'frequency',
+	'forwardReverseBalance',
+	'averageQuality',
+	'typeOfMutation',
+	'codingRegionChange',
+	'aminoAcidChange',
+	'exonNumber',
+	'geneName',
+];
