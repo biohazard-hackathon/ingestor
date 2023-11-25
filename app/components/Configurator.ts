@@ -48,7 +48,7 @@ export default class Configurator {
 			}
 		});
 
-		console.log(this.config);
+		console.log(this.config.parameters);
 	}
 
 	/**

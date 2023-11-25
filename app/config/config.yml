@@ -18,7 +18,6 @@ parameters:
   dynamoDb:
     region: us-east-1
     endpoint: null
-    name: nonsense
     tables:
       report: nonsense-table
 
