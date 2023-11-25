@@ -3,5 +3,5 @@ parameters:
   logger:
     level: debug
 
-  bedrock:
+  s3:
     region: us-east-1
