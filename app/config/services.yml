@@ -1,0 +1,46 @@
+parameters:
+  config.path: config/config.yml
+
+services:
+  configurator:
+    class: 'components/Configurator'
+    arguments:
+      - '%config.path%'
+    calls:
+      - method: selectAndApplyEnvParams
+
+  version:
+    class: 'components/Version'
+
+  router:
+    class: 'components/Router'
+    arguments:
+      - "!tagged controller"
+
+  # Factories
+  logger:
+    factory:
+      class: 'factories/LoggerFactory'
+      method: createInstance
+    arguments:
+      - '@configurator'
+      - '@version'
+
+  # Models
+
+  # Controllers
+  healthCheckController:
+    class: 'controllers/HealthCheckController'
+    arguments:
+      - '@version'
+      - '@logger'
+    tags:
+      - name: controller
+
+  # Controllers
+  sheetIngestionController:
+    class: 'controllers/SheetIngestionController'
+    arguments:
+      - '@logger'
+    tags:
+      - name: controller
