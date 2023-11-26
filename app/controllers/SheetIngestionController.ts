@@ -42,7 +42,7 @@ export default class SheetIngestionController extends BaseController {
 		const id = data.payload.id;
 		const fileName = id + '.xlsx';
 
-		const file = await this.s3Model.getObject('raw', fileName);
+		const file = await this.s3Model.getObject(this.bucketName, fileName);
 		const fileContents = await file.Body?.transformToByteArray();
 
 		await this.sendEvent(id, Status.SHEET_LOADED, JSON.stringify({

@@ -8,15 +8,8 @@ export default class S3ConnectionFactory {
 		const region = configurator.parameters<string>('s3.region');
 		const endpoint = configurator.parameters<string>('s3.endpoint');
 
-		console.log('s3 configuration', {
-			//forcePathStyle: true,
-			region,
-			endpoint: endpoint ?? undefined,
-			credentials: fromEnv(),
-		});
-
 		return AWSXRay.captureAWSv3Client(new S3Client({
-			//forcePathStyle: true,
+			forcePathStyle: true,
 			region,
 			endpoint: endpoint ?? undefined,
 			credentials: fromEnv(),
