@@ -47,8 +47,6 @@ export default class Configurator {
 				return this.applyEnvParam(key, value);
 			}
 		});
-
-		console.log(this.config.parameters);
 	}
 
 	/**

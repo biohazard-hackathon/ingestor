@@ -33,8 +33,6 @@ export default class SheetIngestionController extends BaseController {
 		this.eventBusName = configurator.parameters('eventbridge.name');
 		this.eventBridgeEnabled = configurator.parameters<boolean>('eventbridge.enabled');
 		this.reportTableName = configurator.parameters<string>('dynamoDb.tables.report');
-
-		console.log('Is EventBridge enabled:', this.eventBridgeEnabled);
 	}
 
 	@tracer.captureMethod({subSegmentName: 'SheetIngestionController::default'})
@@ -43,8 +41,18 @@ export default class SheetIngestionController extends BaseController {
 
 		const id = data.payload.id;
 		const fileName = id + '.xlsx';
+		let file;
 
-		const file = await this.s3Model.getObject(this.bucketName, fileName);
+		try {
+			file = await this.s3Model.getObject(this.bucketName, fileName);
+		} catch(exception) {
+			await this.sendEvent(id, Status.ERROR, JSON.stringify({
+				message: 'File not found',
+				fileName,
+			}));
+			return false;
+		}
+
 		const fileContents = await file.Body?.transformToByteArray();
 
 		await this.sendEvent(id, Status.SHEET_LOADED, JSON.stringify({
