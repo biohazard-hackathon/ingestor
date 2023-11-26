@@ -189,6 +189,8 @@ export default class SheetIngestionController extends BaseController {
 			transformedRows: Object.keys(results).length
 		}));
 
+		await sleep(1000);
+
 		return true;
 	}
 
