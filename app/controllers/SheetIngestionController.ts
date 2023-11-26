@@ -191,6 +191,10 @@ export default class SheetIngestionController extends BaseController {
 
 		await sleep(1000);
 
+		await this.sendEvent(id, Status.COMPLETED, JSON.stringify({
+			finished: true,
+		}));
+
 		return true;
 	}
 
