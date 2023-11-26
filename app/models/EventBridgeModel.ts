@@ -32,6 +32,7 @@ export default class EventBridgeModel extends BaseModel {
 				status,
 				output,
 			}),
+			DetailType: 'Ingestor',
 		};
 
 		return this.putEvents([event]);
