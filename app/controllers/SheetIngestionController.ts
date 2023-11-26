@@ -33,6 +33,8 @@ export default class SheetIngestionController extends BaseController {
 		this.eventBusName = configurator.parameters('eventbridge.name');
 		this.eventBridgeEnabled = configurator.parameters<boolean>('eventbridge.enabled');
 		this.reportTableName = configurator.parameters<string>('dynamoDb.tables.report');
+
+		console.log('Is EventBridge enabled:', this.eventBridgeEnabled);
 	}
 
 	@tracer.captureMethod({subSegmentName: 'SheetIngestionController::default'})
