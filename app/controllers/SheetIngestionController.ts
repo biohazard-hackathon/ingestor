@@ -46,10 +46,10 @@ export default class SheetIngestionController extends BaseController {
 		try {
 			file = await this.s3Model.getObject(this.bucketName, fileName);
 		} catch(exception) {
-			await this.sendEvent(id, Status.ERROR, JSON.stringify({
+			console.log(await this.sendEvent(id, Status.ERROR, JSON.stringify({
 				message: 'File not found',
 				fileName,
-			}));
+			})));
 			return false;
 		}
 
