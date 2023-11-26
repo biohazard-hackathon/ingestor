@@ -12,6 +12,10 @@ import {Status} from '../types/event';
 import {Required} from '../types/columns';
 import {DynamoDbModel} from '../models/DynamoDbModel';
 
+function sleep(ms) {
+	return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 export default class SheetIngestionController extends BaseController {
 
 	static IDENTIFIER = 'sheet-ingestion';
@@ -55,6 +59,8 @@ export default class SheetIngestionController extends BaseController {
 
 		const fileContents = await file.Body?.transformToByteArray();
 
+		await sleep(1000);
+
 		await this.sendEvent(id, Status.SHEET_LOADED, JSON.stringify({
 			size: fileContents?.length,
 		}));
@@ -82,6 +88,8 @@ export default class SheetIngestionController extends BaseController {
 			.trim()
 			.replace(/_(.*)$/, '')
 			.trim();
+
+		await sleep(1000);
 
 		await this.sendEvent(id, Status.SHEET_PARSED, JSON.stringify({
 			availableTabNames,
@@ -134,6 +142,8 @@ export default class SheetIngestionController extends BaseController {
 			return false;
 		}
 
+		await sleep(1000);
+
 		await this.sendEvent(id, Status.SHEET_VALIDATED, JSON.stringify({
 			availableTabNames,
 			usingTab: mainTab.name,
@@ -167,6 +177,8 @@ export default class SheetIngestionController extends BaseController {
 		});
 
 		await this.dynamoDbModel.putItem(this.reportTableName, marshalled);
+
+		await sleep(1000);
 
 		await this.sendEvent(id, Status.SHEET_TRANSFORMED, JSON.stringify({
 			availableTabNames,
