@@ -59,7 +59,7 @@ export default class SheetIngestionController extends BaseController {
 
 		const fileContents = await file.Body?.transformToByteArray();
 
-		await sleep(1000);
+		await sleep(2000);
 
 		await this.sendEvent(id, Status.SHEET_LOADED, JSON.stringify({
 			size: fileContents?.length,
@@ -89,7 +89,7 @@ export default class SheetIngestionController extends BaseController {
 			.replace(/_(.*)$/, '')
 			.trim();
 
-		await sleep(1000);
+		await sleep(2000);
 
 		await this.sendEvent(id, Status.SHEET_PARSED, JSON.stringify({
 			availableTabNames,
@@ -142,7 +142,7 @@ export default class SheetIngestionController extends BaseController {
 			return false;
 		}
 
-		await sleep(1000);
+		await sleep(2000);
 
 		await this.sendEvent(id, Status.SHEET_VALIDATED, JSON.stringify({
 			availableTabNames,
@@ -178,7 +178,7 @@ export default class SheetIngestionController extends BaseController {
 
 		await this.dynamoDbModel.putItem(this.reportTableName, marshalled);
 
-		await sleep(1000);
+		await sleep(2000);
 
 		await this.sendEvent(id, Status.SHEET_TRANSFORMED, JSON.stringify({
 			availableTabNames,
@@ -189,7 +189,7 @@ export default class SheetIngestionController extends BaseController {
 			transformedRows: Object.keys(results).length
 		}));
 
-		await sleep(1000);
+		await sleep(2000);
 
 		await this.sendEvent(id, Status.COMPLETED, JSON.stringify({
 			finished: true,
